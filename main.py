@@ -22,7 +22,12 @@ def main() -> int:
         print("entry.png is not a PNG", file=sys.stderr)
         return 1
     shutil.copyfile(SRC, dst)
+    src_size = os.path.getsize(SRC)
     size = os.path.getsize(dst)
+    if size != src_size:
+        print(f"copy incomplete: wrote {size} bytes, expected {src_size}",
+              file=sys.stderr)
+        return 1
     if size > 1048576:
         print(f"entry.png too large: {size} bytes", file=sys.stderr)
         return 1
